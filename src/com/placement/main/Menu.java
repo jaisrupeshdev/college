@@ -11,6 +11,7 @@ import com.placement.dao.StudentDAO;
 import com.placement.model.Company;
 import com.placement.model.Job;
 import com.placement.model.Student;
+import com.placement.service.LoginService;
 import com.placement.service.ShortlistService;
 import com.placement.utils.DBConnection;
 
@@ -24,6 +25,46 @@ public class Menu {
     static ShortlistService shortlistService = new ShortlistService();
 
     public static void main(String[] args) {
+        LoginService loginService = new LoginService();
+
+        System.out.println("========= 🎓 PLACEMENT PORTAL LOGIN =========");
+        System.out.println("1. Admin Login");
+        System.out.println("2. Student Login");
+        System.out.print("👉 Enter choice: ");
+        int loginChoice = sc.nextInt();
+        sc.nextLine();
+
+        boolean loggedIn = false;
+
+        if (loginChoice == 1) {
+            System.out.print("Username: ");
+            String user = sc.nextLine();
+            System.out.print("Password: ");
+            String pass = sc.nextLine();
+            loggedIn = loginService.adminLogin(user, pass);
+            if (loggedIn) System.out.println("✅ Admin login successful!");
+            else System.out.println("❌ Invalid admin credentials!");
+        } else if (loginChoice == 2) {
+            System.out.print("Email: ");
+            String email = sc.nextLine();
+            System.out.print("Password: ");
+            String pass = sc.nextLine();
+            Student s = loginService.studentLogin(email, pass);
+            if (s != null) {
+                System.out.println("✅ Welcome, " + s.getName() + "!");
+                loggedIn = true;
+            } else {
+                System.out.println("❌ Invalid email or password!");
+            }
+        }
+
+        if (!loggedIn) {
+            System.out.println("🚫 Login failed. Exiting...");
+            DBConnection.getInstance().closeConnection();
+            return;
+        }
+
+        // Main menu loop
         while (true) {
             System.out.println("\n========= 🎓 PLACEMENT PORTAL =========");
             System.out.println("1. Add New Student");
