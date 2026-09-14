@@ -1,8 +1,8 @@
-CREATE DATABASE placement_db;
+CREATE DATABASE IF NOT EXISTS placement_db;
 
 USE placement_db;
 
-CREATE TABLE students (
+CREATE TABLE IF NOT EXISTS students (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     roll_no VARCHAR(20) UNIQUE,
@@ -12,27 +12,27 @@ CREATE TABLE students (
     branch VARCHAR(50)
 );
 
-CREATE TABLE companies (
+CREATE TABLE IF NOT EXISTS companies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     industry VARCHAR(50)
 );
 
-CREATE TABLE jobs (
+CREATE TABLE IF NOT EXISTS jobs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     company_id INT,
     title VARCHAR(100),
     min_cgpa DECIMAL(3,2),
-    eligible_branches TEXT,   -- comma separated
-    required_skills TEXT,     -- comma separated
+    eligible_branches TEXT,
+    required_skills TEXT,
     FOREIGN KEY (company_id) REFERENCES companies(id)
 );
 
-CREATE TABLE applications (
+CREATE TABLE IF NOT EXISTS applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT,
     job_id INT,
-    status VARCHAR(20), -- PENDING, SHORTLISTED, REJECTED
+    status VARCHAR(20),
     applied_date DATE,
     FOREIGN KEY (student_id) REFERENCES students(id),
     FOREIGN KEY (job_id) REFERENCES jobs(id)
