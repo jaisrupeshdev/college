@@ -24,16 +24,26 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Interviews - Admin</title>
+    <title>Interviews Monitor - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/theme.js"></script><script src="js/chatbot.js"></script><script src="js/chatbot.js"></script>
+    <script src="js/theme.js"></script>
+    <style>
+        .readonly-badge {
+            background: #e7e9ff; color: #4c51bf; padding: 6px 14px;
+            border-radius: 20px; font-size: 12px; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="sidebar">
-    <div class="brand"><h2><i class="fas fa-graduation-cap"></i> Placement</h2><p>Management System</p></div>
+    <div class="brand">
+        <h2><i class="fas fa-graduation-cap"></i> Placement</h2>
+        <p>Management System</p>
+    </div>
     <div class="nav-section">Main Menu</div>
     <a href="DashboardServlet" class="nav-item"><i class="fas fa-th-large"></i> Dashboard</a>
     <a href="StudentsServlet" class="nav-item"><i class="fas fa-users"></i> Students</a>
@@ -41,8 +51,9 @@
     <a href="JobsServlet" class="nav-item"><i class="fas fa-briefcase"></i> Jobs</a>
     <a href="AdminApplicationsServlet" class="nav-item"><i class="fas fa-file-alt"></i> Applications</a>
     <a href="AdminInterviewsServlet" class="nav-item active"><i class="fas fa-calendar-check"></i> Interviews</a>
-    <a href="ShortlistServlet" class="nav-item"><i class="fas fa-trophy"></i> Shortlist</a><a href="AdminInterviewsServlet" class="nav-item"><i class="fas fa-calendar-check"></i> Interviews</a>
+    <a href="ShortlistServlet" class="nav-item"><i class="fas fa-trophy"></i> Shortlist</a>
     <a href="CompanyStatsServlet" class="nav-item"><i class="fas fa-chart-bar"></i> Company Stats</a>
+    <a href="AdminReportsServlet" class="nav-item"><i class="fas fa-chart-line"></i> Reports</a>
     <a href="EventsServlet" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</a>
     <div class="nav-section">Account</div>
     <a href="LogoutServlet" class="nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -55,20 +66,31 @@
 
 <div class="main-content">
     <div class="topbar">
-        <div><h1>Interview Schedule 📅</h1><p>Manage all scheduled interviews.</p></div>
-        <a href="ScheduleInterviewServlet" class="btn-primary-grad">
-            <i class="fas fa-plus"></i> Schedule Interview
-        </a>
+        <div>
+            <h1>Interviews Monitor 📅</h1>
+            <p>Scheduled interviews across all companies. <strong>(Read-only)</strong></p>
+        </div>
+        <span class="readonly-badge">
+            <i class="fas fa-eye"></i> Read-Only Mode
+        </span>
+    </div>
+
+    <div style="background:#e7e9ff;border-radius:12px;padding:15px 20px;margin-bottom:20px;display:flex;gap:12px;align-items:start;">
+        <i class="fas fa-info-circle" style="color:#4c51bf;font-size:18px;margin-top:2px;"></i>
+        <div>
+            <strong style="color:#4c51bf;font-size:14px;">Read-Only Monitoring</strong>
+            <p style="margin:5px 0 0;color:#4a5578;font-size:13px;">
+                Companies schedule interviews for their shortlisted students. As admin, you can monitor all scheduled interviews here.
+            </p>
+        </div>
     </div>
 
     <% if (interviews == null || interviews.isEmpty()) { %>
         <div class="data-card animate-in">
             <div style="padding: 60px; text-align: center;">
                 <i class="fas fa-calendar-times" style="font-size: 60px; color: #d1d5e0;"></i>
-                <h3 style="color: #8892b0; font-size: 18px; margin-top: 20px;">No interviews scheduled</h3>
-                <a href="ScheduleInterviewServlet" class="btn-primary-grad" style="margin-top: 20px;">
-                    <i class="fas fa-plus"></i> Schedule First Interview
-                </a>
+                <h3 style="color: #8892b0; font-size: 18px; margin-top: 20px;">No interviews scheduled yet</h3>
+                <p style="color: #8892b0;">Companies will schedule interviews for shortlisted students.</p>
             </div>
         </div>
     <% } else { %>
@@ -85,7 +107,7 @@
                         <th>Job</th>
                         <th>Mode</th>
                         <th>Location</th>
-                        <th>Action</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,13 +119,7 @@
                         <td><%= getJobTitle(jobs, i.getJobId()) %></td>
                         <td><span class="badge badge-purple"><%= i.getMode() %></span></td>
                         <td><%= i.getLocation() %></td>
-                        <td>
-                            <a href="DeleteInterviewServlet?id=<%= i.getId() %>" 
-                               class="btn-delete"
-                               onclick="return confirm('Delete this interview?')">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </td>
+                        <td><span class="badge badge-green"><%= i.getStatus() %></span></td>
                     </tr>
                     <% } %>
                 </tbody>

@@ -105,6 +105,7 @@
         <a href="JobsServlet" class="nav-item"><i class="fas fa-briefcase"></i> Jobs</a>
         <a href="AdminApplicationsServlet" class="nav-item"><i class="fas fa-file-alt"></i> Applications</a>
         <a href="AdminInterviewsServlet" class="nav-item"><i class="fas fa-calendar-check"></i> Interviews</a>
+        <a href="AdminReportsServlet" class="nav-item"><i class="fas fa-chart-line"></i> Reports</a>
         <a href="ShortlistServlet" class="nav-item"><i class="fas fa-trophy"></i> Shortlist</a>
         <a href="CompanyStatsServlet" class="nav-item"><i class="fas fa-chart-bar"></i> Company Stats</a>
         <a href="EventsServlet" class="nav-item"><i class="fas fa-calendar-alt"></i> Events</a>
