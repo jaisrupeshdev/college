@@ -10,7 +10,8 @@ public class DBConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/placement_db";
     private static final String USERNAME = "root";
     // 🔥 YAHAN APNA MYSQL PASSWORD DAALO
-    private static final String PASSWORD = "124421ram";
+    private static final String PASSWORD =
+        System.getenv("DB_PASSWORD");
 
     private DBConnection() {
         try {
